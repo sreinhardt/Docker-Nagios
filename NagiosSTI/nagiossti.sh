@@ -4,10 +4,12 @@
 # License: GPLv2
 
 # Global vars
-logfile="/var/log/product.log"
-tarball="http://assets.nagios.com/downloads/..."
-default_services_start="Services needed for this "
-default_services_stop="Sservices needed to stop this "
+logfile="/var/log/nagiossti.log"
+tarball="http://assets.nagios.com/downloads/nsti/tarballs/nsti-*.tar.gz"
+tar_name="nsti-*.tar.gz"
+tar_dir="nsti-*"
+default_services_start="mysqld httpd snmptt snmptrapd nsti"
+default_services_stop="nsti snmptrapd snmptt httpd mysqld"
 
 usage() {
 cat <<EOF
@@ -95,13 +97,13 @@ update() {
 		exit 5
 	fi
 
-	tar xvzf xi-latest.tar.gz 2>&1 | tee -a "${logfile}.upgrade"
+	tar xvzf ${tar_name} 2>&1 | tee -a "${logfile}.upgrade"
 	if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
 		echo Failed to extract tarball, exiting. 2>&1 | tee -a "${logfile}.upgrade"
 		exit 5
 	fi
 
-	cd nagiosxi/
+	cd "${tar_path}"
 	./upgrade 2>&1 | tee -a "${logfile}.update"
 	if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
 		echo Failed to properly run upgrade script, exiting. 2>&1 | tee -a "${logfile}.upgrade"

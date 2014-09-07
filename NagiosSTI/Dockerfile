@@ -1,12 +1,22 @@
-#start with ubuntu
+#start with my centos build
 FROM sreinhardt/centos-6-x86_64:latest
 
 MAINTAINER Spenser Reinhardt
 
 #copy and build
-ADD http://assets.nagios.com/downloads/...
+WORKDIR /tmp
+RUN wget http://assets.nagios.com/downloads/nsti/tarballs/nsti-*.tar.gz /tmp/nsti.tar.gz
+RUN tar xzvf nsti.tar.gz
+WORKDIR nsti-*/
+RUN sh install.sh
+
+ADD nagiossti.sh /etc/init.d/nagiossti
 
 #Post-build docker info
-EXPOSE [ports]
-WORKDIR /usr/local/[project]/
-#CMD ["binary-to-start"]
+EXPOSE 80
+EXPOSE 162
+EXPOSE 443
+EXPOSE 8080
+
+WORKDIR /usr/local/nagiossti/
+CMD ["/etc/init.d/nagiossti", "-s default"]
