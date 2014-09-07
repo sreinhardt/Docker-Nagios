@@ -5,7 +5,7 @@ MAINTAINER Spenser Reinhardt
 
 #copy and build
 WORKDIR /tmp
-RUN wget http://assets.nagios.com/downloads/nsti/tarballs/latest.php /tmp/nsti.tar.gz
+ADD http://assets.nagios.com/downloads/nsti/tarballs/latest.php /tmp/nsti.tar.gz
 RUN tar xzvf nsti.tar.gz
 WORKDIR nsti-*/
 RUN sh install.sh
