@@ -19,4 +19,4 @@ EXPOSE 443
 EXPOSE 5667
 
 WORKDIR /usr/local/nagios/
-CMD ["/etc/init.d/nagiosxi", "-s ntpd", "-s mysql", "-s postgresql", "-s httpd", "-s npcd", "-s mrtg", "-s nagios", "-l /var/log/nagiosxi.log"[[ ]
+CMD ["/etc/init.d/nagiosxi", "-s default -l /var/log/nagiosxi.log"]
