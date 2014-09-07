@@ -4,10 +4,10 @@
 # License: GPLv2
 
 # Global vars
-logfile="/var/log/product.log"
-tarball="http://assets.nagios.com/downloads/..."
-default_services_start="Services needed for this "
-default_services_stop="Sservices needed to stop this "
+logfile="/var/log/nagiosna.log"
+tarball="http://assets.nagios.com/downloads/nagios-network-analyzer/nagiosna.latest.tar.gz"
+default_services_start="mysqld httpd nagiosna"
+default_services_stop="nagiosna httpd mysqld"
 
 usage() {
 cat <<EOF
