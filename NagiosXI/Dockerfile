@@ -9,6 +9,7 @@ ADD http://assets.nagios.com/downloads/nagiosxi/xi-latest.tar.gz /tmp/xi-latest.
 RUN ls -lart; pwd
 RUN tar xzvf xi-latest.tar.gz
 WORKDIR nagiosxi/
+RUN touch installed.firewall
 RUN ./fullinstall -n
 
 #include init script
