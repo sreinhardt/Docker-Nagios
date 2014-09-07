@@ -7,7 +7,9 @@ MAINTAINER Spenser Reinhardt
 WORKDIR /tmp
 ADD http://assets.nagios.com/downloads/nsti/tarballs/latest.php /tmp/nsti.tar.gz
 RUN tar xzvf nsti.tar.gz
-WORKDIR nsti-*/
+RUN ls -lart; pwd
+WORKDIR nsti/
+RUN ls -lart; pwd
 RUN sh install.sh
 
 ADD nagiossti.sh /etc/init.d/nagiossti
