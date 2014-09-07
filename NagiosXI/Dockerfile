@@ -5,7 +5,8 @@ MAINTAINER Spenser Reinhardt
 
 #copy and build
 WORKDIR /tmp/
-ADD http://assets.nagios.com/downloads/nagiosxi/xi-latest.tar.gz xi-latest.tar.gz
+ADD http://assets.nagios.com/downloads/nagiosxi/xi-latest.tar.gz /tmp/xi-latest.tar.gz
+RUN ls -lart; pwd
 RUN tar xzvf xi-latest.tar.gz
 WORKDIR nagiosxi/
 RUN ./fullinstall -n
