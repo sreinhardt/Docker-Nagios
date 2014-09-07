@@ -5,8 +5,8 @@
 
 # Global vars
 logfile="/var/log/nagiossti.log"
-tarball="http://assets.nagios.com/downloads/nsti/tarballs/nsti-*.tar.gz"
-tar_name="nsti-*.tar.gz"
+tarball="http://assets.nagios.com/downloads/nsti/tarballs/latest.php"
+tar_name="nsti.tar.gz"
 tar_dir="nsti-*"
 default_services_start="mysqld httpd snmptt snmptrapd nsti"
 default_services_stop="nsti snmptrapd snmptt httpd mysqld"
@@ -91,7 +91,7 @@ stop-services() {
 # Update product(s)
 update() {
 	cd /tmp/
-	wget "${tarball}" 2>&1 | tee -a "${logfile}.upgrade"
+	wget "${tarball}" ${tar_name} 2>&1 | tee -a "${logfile}.upgrade"
 	if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
 		echo Failed to download tarball, exiting. 2>&1 | tee -a "${logfile}.upgrade"
 		exit 5
@@ -103,7 +103,7 @@ update() {
 		exit 5
 	fi
 
-	cd "${tar_path}"
+	cd "${tar_dir}"
 	./upgrade 2>&1 | tee -a "${logfile}.update"
 	if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
 		echo Failed to properly run upgrade script, exiting. 2>&1 | tee -a "${logfile}.upgrade"
