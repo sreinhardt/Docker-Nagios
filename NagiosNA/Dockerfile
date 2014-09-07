@@ -1,12 +1,19 @@
-#start with ubuntu
+#start with our centos base
 FROM sreinhardt/centos-6-x86_64:latest
 
 MAINTAINER Spenser Reinhardt
 
 #copy and build
-ADD http://assets.nagios.com/downloads/...
+WORKDIR /tmp/
+ADD http://assets.nagios.com/downloads/nagios-network-analyzer/nagiosna-latest.tar.gz /tmp/nagiosna-latest.tar.gz
+RUN tar xzvf nagiosna-latest.tar.gz
+WORKDIR nagiosna/
+RUN ./fullinstall -n
+ADD nagiosna.sh /etc/init.d/nagiosna
 
 #Post-build docker info
-EXPOSE [ports]
-WORKDIR /usr/local/[project]/
-#CMD ["binary-to-start"]
+EXPOSE 80
+EXPOSE 443
+
+WORKDIR /usr/local/nagiosna/
+CMD ["/etc/init.d/nagiosna", "-s default"]
