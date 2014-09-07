@@ -4,8 +4,11 @@
 # License: GPLv2
 
 # Global vars
-tarbalil="http://assets.nagios.com/downloads/..."
-default_services="Servcices needed for this "
+logfile="/var/log/product.log"
+tarball="http://assets.nagios.com/downloads/..."
+default_services_start="Services needed for this "
+default_services_stop="Sservices needed to stop this "
+
 usage() {
 cat <<EOF
 
@@ -17,8 +20,8 @@ Also has the ability to upgrade Nagios products.
 Options:
 	-h	This output.
 	-s	Service to start. May be used multiple times, services will be started in given order.
-		(Default: ntpd, mysql, postgresql, httpd, npcd, mrtg, nagios)
-	-l	Log file to store output from this script. (Default: /var/log/nagiosxi.log)
+		(Default: ${default_services_start})
+	-l	Log file to store output from this script. (Default: ${logfile})
 	-u	Update Nagios installation
 
 EOF
@@ -138,9 +141,6 @@ getargs() {
 		esac
 	done
 
-	if [[ -z $logfile ]]; then
-		logfile="/var/log/nagiosxi.log"
-	fi
 	if [[ -z $stop ]]; then
 		stop=${false}
 	fi
@@ -154,16 +154,19 @@ getargs() {
 		exit 2
 	fi
 	# Catch if we just eant default services for this image type
-	if [[ ${update} -eq ${false} ]] && [[ "$services" -eq "default" ]]; then
-		services="${default_services}"
+	if [[ ${update} -eq ${false} ]] && [[ ${stop} -eq ${false} ]] && [[ "$services" -eq "default" ]]; then
+		services="${default_services_start}"
+	elif [[ ${update} -eq ${false} ]] && [[ ${stop} -eq ${true} ]] && [[ "$services" -eq "default" ]]; then
+		services="${default_services_stop}"
 	fi
+
 }
 
 # main logic
 getargs
 
 if [[ ${upgrade} -eq ${true} ]]; then
-	services="${default_services}"
+	services="${default_services_start}"
 	start-services
 	upgrade
 	exit 0
