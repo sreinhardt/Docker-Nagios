@@ -10,20 +10,20 @@ ENV nagios_user nagios
 ENV nagios_group nagios
 ENV nagcmd_group nagcmd
 
-
 # Dependencies
-RUN yum install -y wget httpd php gcc glibc glibc-common gd gd-devel make net-snmp automake autoconf openssl-devel mysql-devel \
-fping perl-Net-SNMP openssh-devel net-snmp-utils bind-utils samba-client gettext
+RUN yum install -y wget httpd php gcc glibc glibc-common gd gd-devel make net-snmp automake autoconf \
+openssl-devel mysql-devel fping perl-Net-SNMP openssh-devel net-snmp-utils bind-utils samba-client gettext
 
 # Users and groups
 RUN groupadd ${nagcmd_group}
-RUN useradd ${nagios_user} -s /bin/false -M -d /usr/local/nagios/ -U -G ${nagcmd_group}
+RUN useradd ${nagios_user} -s /sbin/nologin -M -d /usr/local/nagios/ -U -G ${nagcmd_group}
 RUN usermod -a -G ${nagcmd_group} apache
 RUN usermod -a -G ${nagios_group} apache
 
 # Copy and untar core
 WORKDIR /tmp/
-ADD https://github.com/NagiosEnterprises/nagioscore/archive/nagios-${nagios_version}.tar.gz /tmp/nagios-${nagios_version}.tar.gz
+ADD https://github.com/NagiosEnterprises/nagioscore/archive/nagios-${nagios_version}.tar.gz \
+/tmp/nagios-${nagios_version}.tar.gz
 RUN tar xzvf nagios-${nagios_version}.tar.gz
 
 # Change per version
@@ -44,14 +44,14 @@ RUN /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
 
 # Copy and untar plugins
 WORKDIR /tmp/
-ADD https://github.com/nagios-plugins/nagios-plugins/archive/release-${plugins_version}.tar.gz /tmp/nagios-plugins-${plugins_version}.tar.gz
+ADD https://github.com/nagios-plugins/nagios-plugins/archive/release-${plugins_version}.tar.gz \
+/tmp/nagios-plugins-${plugins_version}.tar.gz
 RUN tar xzvf nagios-plugins-${plugins_version}.tar.gz
 
 # Change per version
 WORKDIR nagios-plugins-release-2.0.3/
 
 # Build plugins
-RUN ls -lart; pwd
 RUN ./tools/setup
 RUN ./configure --with-nagios-user=${nagios_user} --with-nagios-group=${nagios_group}
 RUN make
