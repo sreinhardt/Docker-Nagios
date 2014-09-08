@@ -22,7 +22,7 @@ WORKDIR /tmp/
 ADD https://github.com/NagiosEnterprises/nagioscore/archive/nagios-${nagios_version}.tar.gz /tmp/nagios-${nagios_version}.tar.gz
 RUN tar xzvf nagios-${nagios_version}.tar.gz
 RUN ls -lart; pwd
-WORKDIR nagioscore-nagios-${nagios_version}/
+WORKDIR nagioscore-nagios-4.0.8/
 RUN ls -lart; pwd
 RUN ./configure --with-command-group=${nagcmd_group} --with-nagios-group=${nagios_group}
 RUN make
@@ -41,7 +41,7 @@ WORKDIR /tmp/
 ADD https://github.com/nagios-plugins/nagios-plugins/archive/release-${plugins_version}.tar.gz /tmp/nagios-plugins-${plugins_version}.tar.gz
 RUN tar xzvf nagios-plugins-${plugins_version}.tar.gz
 RUN ls -lart; pwd
-WORKDIR nagios-plugins-${plugins_version}/
+WORKDIR nagios-plugins-2.0.3/
 RUN ./configure --with-nagios-user=${nagios_user} --with-nagios-group=${nagios_group}
 RUN make
 RUN make install
