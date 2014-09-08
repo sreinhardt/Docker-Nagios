@@ -19,10 +19,10 @@ RUN usermod -a -G ${nagios_group} apache
 
 #copy and build core
 WORKDIR /tmp/
-ADD https://github.com/NagiosEnterprises/nagioscore/archive/nagios-${nagios-version}.tar.gz /tmp/nagios-${nagios-version}.tar.gz
-RUN tar xzvf nagios-${nagios-version}.tar.gz
+ADD https://github.com/NagiosEnterprises/nagioscore/archive/nagios-${nagios_version}.tar.gz /tmp/nagios-${nagios_version}.tar.gz
+RUN tar xzvf nagios-${nagios_version}.tar.gz
 RUN ls -lart; pwd
-WORKDIR nagios-${nagios-version}/
+WORKDIR nagios-${nagios_version}/
 RUN ./configure --with-command-group=${nagcmd_group} --with-nagios-group=${nagios_group}
 RUN make
 RUN make all
@@ -37,7 +37,7 @@ RUN /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg
 
 #copy and build plugins
 WORKDIR /tmp/
-ADD https://github.com/nagios-plugins/nagios-plugins/archive/release-${plugins-version}.tar.gz /tmp/nagios-plugins-${plugins-version}.tar.gz
+ADD https://github.com/nagios-plugins/nagios-plugins/archive/release-${plugins_version}.tar.gz /tmp/nagios-plugins-${plugins_version}.tar.gz
 RUN tar xzvf nagios-plugins-${plugins_version}.tar.gz
 RUN ls -lart; pwd
 WORKDIR nagios-plugins-${plugins_version}/
