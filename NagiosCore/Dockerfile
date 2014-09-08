@@ -22,7 +22,7 @@ WORKDIR /tmp/
 ADD https://github.com/NagiosEnterprises/nagioscore/archive/nagios-${nagios_version}.tar.gz /tmp/nagios-${nagios_version}.tar.gz
 RUN tar xzvf nagios-${nagios_version}.tar.gz
 RUN ls -lart; pwd
-WORKDIR nagios-${nagios_version}/
+WORKDIR nagioscore-nagios-${nagios_version}/
 RUN ./configure --with-command-group=${nagcmd_group} --with-nagios-group=${nagios_group}
 RUN make
 RUN make all
