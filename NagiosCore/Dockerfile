@@ -12,7 +12,7 @@ ENV nagcmd_group nagcmd
 
 
 # Dependencies
-RUN yum install -y wget httpd php gcc glibc glibc-common gd gd-devel make net-snmp
+RUN yum install -y wget httpd php gcc glibc glibc-common gd gd-devel make net-snmp automake autoconf
 
 # Users and groups
 RUN groupadd ${nagcmd_group}
