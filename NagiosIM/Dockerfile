@@ -8,7 +8,7 @@ WORKDIR /tmp/
 ADD http://assets.nagios.com/downloads/nagiosim/nagiosim-latest.tar.gz /tmp/nagiosim-latest.tar.gz
 RUN tar xzvf nagiosim-latest.tar.gz
 WORKDIR nagiosim/
-RUN ./fullinstll -n
+RUN ./fullinstall -n
 
 ADD nagiosim.sh /etc/init.d/nagiosim
 
